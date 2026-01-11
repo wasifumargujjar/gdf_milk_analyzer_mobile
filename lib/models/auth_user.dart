@@ -54,7 +54,7 @@ class AuthUser {
       for (var claimName in claimNames) {
         if (payloadMap.containsKey(claimName)) {
           final value = payloadMap[claimName];
-          print('Found claim \"$claimName\": $value (type: ${value.runtimeType})');
+          print('Found claim "${claimName}": $value (type: ${value.runtimeType})');
           
           // Handle array values - take the first element
           if (value is List && value.isNotEmpty) {

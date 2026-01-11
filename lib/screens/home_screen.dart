@@ -61,6 +61,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 onSelected: (value) {
                   if (value == 'profile') {
                     context.push('/profile');
+                  } else if (value == 'find_nearby') {
+                    context.push('/find-nearby');
+                  } else if (value == 'schedule_tests') {
+                    context.push('/schedule-tests');
+                  } else if (value == 'tests_history') {
+                    context.push('/tests-history');
                   } else if (value == 'logout') {
                     _handleLogout();
                   }
@@ -73,6 +79,36 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         Icon(Icons.person),
                         SizedBox(width: 12),
                         Text('Profile'),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 'find_nearby',
+                    child: Row(
+                      children: [
+                        Icon(Icons.location_on),
+                        SizedBox(width: 12),
+                        Text('Find Nearby Vehicles'),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 'schedule_tests',
+                    child: Row(
+                      children: [
+                        Icon(Icons.schedule),
+                        SizedBox(width: 12),
+                        Text('Schedule Tests'),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 'tests_history',
+                    child: Row(
+                      children: [
+                        Icon(Icons.history),
+                        SizedBox(width: 12),
+                        Text('Tests History'),
                       ],
                     ),
                   ),

@@ -11,6 +11,8 @@ import '../screens/confirm_email_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/profile_screen.dart';
 import '../screens/milk_test_detail_screen.dart';
+import '../screens/tests_history_screen.dart';
+import '../screens/schedule_test_screen.dart';
 import '../models/milk_test_result.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -100,6 +102,14 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/profile',
         builder: (context, state) => const ProfileScreen(),
+      ),
+      GoRoute(
+        path: '/tests-history',
+        builder: (context, state) => const TestsHistoryScreen(),
+      ),
+      GoRoute(
+        path: '/schedule-tests',
+        builder: (context, state) => const ScheduleTestScreen(),
       ),
       GoRoute(
         path: '/test-detail',

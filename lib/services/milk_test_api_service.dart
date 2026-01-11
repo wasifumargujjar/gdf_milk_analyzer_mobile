@@ -31,4 +31,30 @@ class MilkTestApiService {
 
     return MilkTestResult.fromJson(response);
   }
+
+  /// Schedule a new test using the ScheduleController endpoint
+  /// Sends Date (yyyy-MM-dd), Time (HH:mm), VehicalId, TestTypeId and UserId
+  Future<dynamic> scheduleTest({
+    required String userId,
+    required String date, // yyyy-MM-dd
+    required String time, // HH:mm
+    String? vehicalId,
+    required String testTypeId,
+  }) async {
+    final body = {
+      'UserId': userId,
+      'Date': date,
+      'Time': time,
+      'VehicalId': vehicalId,
+      'TestTypeId': testTypeId,
+    };
+
+    final response = await _apiService.post(
+      '/api/Schedule',
+      body,
+      requiresAuth: true,
+    );
+
+    return response;
+  }
 }
