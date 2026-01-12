@@ -4,11 +4,7 @@ import 'router/app_router.dart';
 import 'services/deep_link_service.dart';
 
 void main() {
-  runApp(
-    const ProviderScope(
-      child: MyApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends ConsumerStatefulWidget {
@@ -61,15 +57,25 @@ class _MyAppState extends ConsumerState<MyApp> {
   Widget build(BuildContext context) {
     final router = ref.watch(routerProvider);
 
+    final primary = const Color(0xFF2563EB); // Indigo-blue
+    final accent = const Color(0xFF06B6D4); // Teal
+
     return MaterialApp.router(
       title: 'Milk Analyzer',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
+          seedColor: primary,
+          primary: primary,
+          secondary: accent,
           brightness: Brightness.light,
         ),
         useMaterial3: true,
+        appBarTheme: const AppBarTheme(elevation: 0.5, centerTitle: false),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          selectedItemColor: primary,
+          unselectedItemColor: Colors.grey[600],
+        ),
         cardTheme: CardThemeData(
           elevation: 2,
           shape: RoundedRectangleBorder(
@@ -77,10 +83,20 @@ class _MyAppState extends ConsumerState<MyApp> {
           ),
         ),
         inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
           filled: true,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            elevation: 0,
+          ),
+        ),
+        textTheme: Theme.of(context).textTheme.apply(
+          bodyColor: Colors.grey[900],
+          displayColor: Colors.grey[900],
         ),
       ),
       routerConfig: router,

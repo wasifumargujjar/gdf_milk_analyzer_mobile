@@ -53,7 +53,9 @@ class _ScheduleTestScreenState extends ConsumerState<ScheduleTestScreen> {
 
   Future<void> _submit() async {
     if (_selectedTestType == null) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please select a test type')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select a test type')),
+      );
       return;
     }
 
@@ -80,8 +82,10 @@ class _ScheduleTestScreenState extends ConsumerState<ScheduleTestScreen> {
       String timeStr = '';
       if (scheduledAt != null) {
         final local = scheduledAt.toLocal();
-        dateStr = '${local.year.toString().padLeft(4, '0')}-${local.month.toString().padLeft(2, '0')}-${local.day.toString().padLeft(2, '0')}';
-        timeStr = '${local.hour.toString().padLeft(2, '0')}:${local.minute.toString().padLeft(2, '0')}';
+        dateStr =
+            '${local.year.toString().padLeft(4, '0')}-${local.month.toString().padLeft(2, '0')}-${local.day.toString().padLeft(2, '0')}';
+        timeStr =
+            '${local.hour.toString().padLeft(2, '0')}:${local.minute.toString().padLeft(2, '0')}';
       }
 
       await api.scheduleTest(
@@ -96,11 +100,15 @@ class _ScheduleTestScreenState extends ConsumerState<ScheduleTestScreen> {
       await ref.read(milkTestResultsProvider.notifier).refresh();
 
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Test has been scheduled successfully')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Test has been scheduled successfully')),
+      );
       context.go('/tests-history');
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to schedule test: $e')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to schedule test: $e')));
       }
     } finally {
       if (mounted) setState(() => _submitting = false);
@@ -109,8 +117,12 @@ class _ScheduleTestScreenState extends ConsumerState<ScheduleTestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final dateStr = _selectedDate == null ? 'Select date' : DateFormat('MMM dd, yyyy').format(_selectedDate!);
-    final timeStr = _selectedTime == null ? 'Select time' : _selectedTime!.format(context);
+    final dateStr = _selectedDate == null
+        ? 'Select date'
+        : DateFormat('MMM dd, yyyy').format(_selectedDate!);
+    final timeStr = _selectedTime == null
+        ? 'Select time'
+        : _selectedTime!.format(context);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Schedule Test')),
@@ -119,7 +131,10 @@ class _ScheduleTestScreenState extends ConsumerState<ScheduleTestScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('Test Date & Time', style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              'Test Date & Time',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 8),
             Row(
               children: [
@@ -146,18 +161,33 @@ class _ScheduleTestScreenState extends ConsumerState<ScheduleTestScreen> {
               value: _selectedVehicleId,
               items: [
                 const DropdownMenuItem(value: null, child: Text('No vehicle')),
-                ..._vehicles.map((v) => DropdownMenuItem(value: v['id'], child: Text(v['label']!))),
+                ..._vehicles.map(
+                  (v) => DropdownMenuItem(
+                    value: v['id'],
+                    child: Text(v['label']!),
+                  ),
+                ),
               ],
               onChanged: (v) => setState(() => _selectedVehicleId = v),
               decoration: const InputDecoration(border: OutlineInputBorder()),
             ),
 
             const SizedBox(height: 16),
-            Text('Type of Test', style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              'Type of Test',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 8),
             DropdownButtonFormField<String?>(
               value: _selectedTestType,
-              items: _testTypes.map((t) => DropdownMenuItem(value: t['value'], child: Text(t['label']!))).toList(),
+              items: _testTypes
+                  .map(
+                    (t) => DropdownMenuItem(
+                      value: t['value'],
+                      child: Text(t['label']!),
+                    ),
+                  )
+                  .toList(),
               onChanged: (v) => setState(() => _selectedTestType = v),
               decoration: const InputDecoration(border: OutlineInputBorder()),
             ),
@@ -166,7 +196,16 @@ class _ScheduleTestScreenState extends ConsumerState<ScheduleTestScreen> {
 
             ElevatedButton(
               onPressed: _submitting ? null : _submit,
-              child: _submitting ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)) : const Text('Schedule Test'),
+              child: _submitting
+                  ? const SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 2,
+                      ),
+                    )
+                  : const Text('Schedule Test'),
             ),
           ],
         ),

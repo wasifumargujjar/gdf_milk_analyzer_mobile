@@ -8,9 +8,10 @@ import 'service_providers.dart';
 import '../services/api_service.dart';
 
 /// Auth state that holds the current authenticated user
-final authStateProvider = StateNotifierProvider<AuthNotifier, AsyncValue<AuthUser?>>((ref) {
-  return AuthNotifier(ref);
-});
+final authStateProvider =
+    StateNotifierProvider<AuthNotifier, AsyncValue<AuthUser?>>((ref) {
+      return AuthNotifier(ref);
+    });
 
 class AuthNotifier extends StateNotifier<AsyncValue<AuthUser?>> {
   final Ref _ref;
@@ -33,7 +34,8 @@ class AuthNotifier extends StateNotifier<AsyncValue<AuthUser?>> {
             userInfo['username'] != null &&
             userInfo['email'] != null &&
             userInfo['role'] != null) {
-          final userId = userInfo['userId'] ?? AuthUser.extractUserIdFromToken(token);
+          final userId =
+              userInfo['userId'] ?? AuthUser.extractUserIdFromToken(token);
           state = AsyncValue.data(
             AuthUser(
               username: userInfo['username']!,
@@ -159,7 +161,8 @@ class AuthNotifier extends StateNotifier<AsyncValue<AuthUser?>> {
       );
 
       final response = await authService.registerWithConfirmation(model);
-      return response['message'] ?? 'Registration successful! Please check your email.';
+      return response['message'] ??
+          'Registration successful! Please check your email.';
     } on ApiException catch (e) {
       throw e.message;
     } catch (e) {

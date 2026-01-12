@@ -53,6 +53,62 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         }
 
         return Scaffold(
+          drawer: Drawer(
+            child: Column(
+              children: [
+                UserAccountsDrawerHeader(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Theme.of(context).colorScheme.primary,
+                        Theme.of(context).colorScheme.secondary,
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+                  accountName: Text(user.username),
+                  accountEmail: Text(user.email ?? ''),
+                  currentAccountPicture: CircleAvatar(
+                    backgroundColor: Colors.white.withOpacity(0.2),
+                    child: Text(
+                      user.username[0].toUpperCase(),
+                      style: const TextStyle(fontSize: 24, color: Colors.white),
+                    ),
+                  ),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.home),
+                  title: const Text('Home'),
+                  onTap: () => context.go('/home'),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.history),
+                  title: const Text('Tests History'),
+                  onTap: () => context.go('/tests-history'),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.schedule),
+                  title: const Text('Schedule Tests'),
+                  onTap: () => context.go('/schedule-tests'),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.location_on),
+                  title: const Text('Find Nearby Vehicles'),
+                  onTap: () => context.go('/find-nearby'),
+                ),
+                const Spacer(),
+                ListTile(
+                  leading: const Icon(Icons.logout, color: Colors.red),
+                  title: const Text(
+                    'Logout',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                  onTap: _handleLogout,
+                ),
+              ],
+            ),
+          ),
           appBar: AppBar(
             title: const Text('Milk Analyzer'),
             actions: [
@@ -164,13 +220,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleMedium
-                                        ?.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                        ?.copyWith(fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     user.username,
-                                    style: Theme.of(context).textTheme.bodyLarge,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyLarge,
                                   ),
                                 ],
                               ),
@@ -206,9 +262,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       children: [
                         Text(
                           'Recent Tests',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge
+                          style: Theme.of(context).textTheme.titleLarge
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         testResults.when(
@@ -253,27 +307,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     }
 
                     return SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          if (index == results.length) {
-                            if (ref
-                                .read(milkTestResultsProvider.notifier)
-                                .hasMore) {
-                              return const Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                              );
-                            }
-                            return const SizedBox(height: 16);
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        if (index == results.length) {
+                          if (ref
+                              .read(milkTestResultsProvider.notifier)
+                              .hasMore) {
+                            return const Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: Center(child: CircularProgressIndicator()),
+                            );
                           }
+                          return const SizedBox(height: 16);
+                        }
 
-                          final result = results[index];
-                          return _buildTestResultCard(context, result);
-                        },
-                        childCount: results.length + 1,
-                      ),
+                        final result = results[index];
+                        return _buildTestResultCard(context, result);
+                      }, childCount: results.length + 1),
                     );
                   },
                   loading: () => const SliverFillRemaining(
@@ -304,15 +353,56 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ],
             ),
           ),
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _getNavIndex(context),
+            onTap: (idx) {
+              switch (idx) {
+                case 0:
+                  context.go('/home');
+                  break;
+                case 1:
+                  context.go('/tests-history');
+                  break;
+                case 2:
+                  context.go('/schedule-tests');
+                  break;
+                case 3:
+                  context.go('/profile');
+                  break;
+              }
+            },
+            items: const [
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.history),
+                label: 'History',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.schedule),
+                label: 'Schedule',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profile',
+              ),
+            ],
+            type: BottomNavigationBarType.fixed,
+          ),
         );
       },
-      loading: () => const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      ),
-      error: (error, stack) => Scaffold(
-        body: Center(child: Text('Error: $error')),
-      ),
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
+      error: (error, stack) =>
+          Scaffold(body: Center(child: Text('Error: $error'))),
     );
+  }
+
+  int _getNavIndex(BuildContext context) {
+    final loc = (GoRouter.of(context) as dynamic).location ?? '';
+    if (loc.startsWith('/tests-history')) return 1;
+    if (loc.startsWith('/schedule-tests')) return 2;
+    if (loc.startsWith('/profile')) return 3;
+    return 0;
   }
 
   Widget _buildDashboardMetrics(List<dynamic> results) {
@@ -328,7 +418,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         .where((r) => r.timestampUtc.isAfter(monthAgo))
         .length;
     final latestDate = results.isNotEmpty
-        ? DateFormat('MMM dd, yyyy').format(results.first.timestampUtc.toLocal())
+        ? DateFormat(
+            'MMM dd, yyyy',
+          ).format(results.first.timestampUtc.toLocal())
         : 'N/A';
 
     return Column(
@@ -381,7 +473,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget _buildMetricCard(
-      String label, String value, IconData icon, Color color) {
+    String label,
+    String value,
+    IconData icon,
+    Color color,
+  ) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -407,10 +503,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             const SizedBox(height: 8),
             Text(
               value,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -427,11 +520,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: Theme.of(context).primaryColor.withValues(alpha: 0.1),
-          child: Icon(
-            Icons.science,
-            color: Theme.of(context).primaryColor,
-          ),
+          backgroundColor: Theme.of(
+            context,
+          ).primaryColor.withValues(alpha: 0.1),
+          child: Icon(Icons.science, color: Theme.of(context).primaryColor),
         ),
         title: Text(
           result.rawLine ?? 'Sample #${result.id}',

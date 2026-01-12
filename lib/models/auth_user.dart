@@ -21,26 +21,30 @@ class AuthUser {
     try {
       print('=== JWT Token Extraction Debug ===');
       print('Token length: ${token.length}');
-      print('Token (first 50 chars): ${token.substring(0, token.length > 50 ? 50 : token.length)}');
-      
+      print(
+        'Token (first 50 chars): ${token.substring(0, token.length > 50 ? 50 : token.length)}',
+      );
+
       // JWT tokens have 3 parts separated by dots: header.payload.signature
       final parts = token.split('.');
       if (parts.length != 3) {
-        print('ERROR: Token does not have 3 parts. Parts count: ${parts.length}');
+        print(
+          'ERROR: Token does not have 3 parts. Parts count: ${parts.length}',
+        );
         return '';
       }
-      
+
       // Decode the payload (second part)
       final payload = parts[1];
       // Add padding if needed for base64 decoding
       var normalized = base64Url.normalize(payload);
       final decoded = utf8.decode(base64Url.decode(normalized));
       print('Decoded JWT payload string: $decoded');
-      
+
       final Map<String, dynamic> payloadMap = json.decode(decoded);
       print('Parsed payload map: $payloadMap');
       print('Available claim keys: ${payloadMap.keys.toList()}');
-      
+
       // Try different claim names
       final claimNames = [
         'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier',
@@ -50,12 +54,14 @@ class AuthUser {
         'id',
         'user_id',
       ];
-      
+
       for (var claimName in claimNames) {
         if (payloadMap.containsKey(claimName)) {
           final value = payloadMap[claimName];
-          print('Found claim "${claimName}": $value (type: ${value.runtimeType})');
-          
+          print(
+            'Found claim "${claimName}": $value (type: ${value.runtimeType})',
+          );
+
           // Handle array values - take the first element
           if (value is List && value.isNotEmpty) {
             final userId = value[0].toString();
@@ -70,7 +76,7 @@ class AuthUser {
           }
         }
       }
-      
+
       print('ERROR: userId not found in any known claim');
       print('==================================');
       return '';

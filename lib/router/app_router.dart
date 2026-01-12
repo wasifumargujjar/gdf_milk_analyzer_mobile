@@ -22,7 +22,8 @@ final routerProvider = Provider<GoRouter>((ref) {
     initialLocation: '/login',
     redirect: (context, state) {
       final isAuthenticated = authState.value != null;
-      final isLoggingIn = state.matchedLocation == '/login' ||
+      final isLoggingIn =
+          state.matchedLocation == '/login' ||
           state.matchedLocation == '/register-simple' ||
           state.matchedLocation == '/register-with-confirmation' ||
           state.matchedLocation == '/forgot-password' ||
@@ -42,18 +43,14 @@ final routerProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: [
-      GoRoute(
-        path: '/login',
-        builder: (context, state) => const LoginScreen(),
-      ),
+      GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
       GoRoute(
         path: '/register-simple',
         builder: (context, state) => const RegisterSimpleScreen(),
       ),
       GoRoute(
         path: '/register-with-confirmation',
-        builder: (context, state) =>
-            const RegisterWithConfirmationScreen(),
+        builder: (context, state) => const RegisterWithConfirmationScreen(),
       ),
       GoRoute(
         path: '/forgot-password',
@@ -62,15 +59,15 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/reset-password',
         builder: (context, state) {
-          final userId = int.tryParse(state.uri.queryParameters['userId'] ?? '');
+          final userId = int.tryParse(
+            state.uri.queryParameters['userId'] ?? '',
+          );
           final token = state.uri.queryParameters['token'];
 
           if (userId == null || token == null) {
             return Scaffold(
               appBar: AppBar(title: const Text('Error')),
-              body: const Center(
-                child: Text('Invalid reset password link'),
-              ),
+              body: const Center(child: Text('Invalid reset password link')),
             );
           }
 
@@ -80,25 +77,22 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/confirm-email',
         builder: (context, state) {
-          final userId = int.tryParse(state.uri.queryParameters['userId'] ?? '');
+          final userId = int.tryParse(
+            state.uri.queryParameters['userId'] ?? '',
+          );
           final token = state.uri.queryParameters['token'];
 
           if (userId == null || token == null) {
             return Scaffold(
               appBar: AppBar(title: const Text('Error')),
-              body: const Center(
-                child: Text('Invalid confirmation link'),
-              ),
+              body: const Center(child: Text('Invalid confirmation link')),
             );
           }
 
           return ConfirmEmailScreen(userId: userId, token: token);
         },
       ),
-      GoRoute(
-        path: '/home',
-        builder: (context, state) => const HomeScreen(),
-      ),
+      GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
       GoRoute(
         path: '/profile',
         builder: (context, state) => const ProfileScreen(),
@@ -121,9 +115,7 @@ final routerProvider = Provider<GoRouter>((ref) {
     ],
     errorBuilder: (context, state) => Scaffold(
       appBar: AppBar(title: const Text('Error')),
-      body: Center(
-        child: Text('Page not found: ${state.matchedLocation}'),
-      ),
+      body: Center(child: Text('Page not found: ${state.matchedLocation}')),
     ),
   );
 });

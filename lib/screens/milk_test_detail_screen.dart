@@ -5,10 +5,7 @@ import '../models/milk_test_result.dart';
 class MilkTestDetailScreen extends StatelessWidget {
   final MilkTestResult testResult;
 
-  const MilkTestDetailScreen({
-    super.key,
-    required this.testResult,
-  });
+  const MilkTestDetailScreen({super.key, required this.testResult});
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +14,7 @@ class MilkTestDetailScreen extends StatelessWidget {
     final timeStr = DateFormat('hh:mm:ss a').format(dateTime);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Test Result Details'),
-      ),
+      appBar: AppBar(title: const Text('Test Result Details')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -46,12 +41,8 @@ class MilkTestDetailScreen extends StatelessWidget {
                             children: [
                               Text(
                                 'Test #${testResult.id}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge
-                                    ?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                style: Theme.of(context).textTheme.titleLarge
+                                    ?.copyWith(fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(height: 4),
                               Text(
@@ -71,12 +62,8 @@ class MilkTestDetailScreen extends StatelessWidget {
                       const Divider(height: 24),
                       Text(
                         'Raw Data',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium
-                            ?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
                       Container(
@@ -103,9 +90,9 @@ class MilkTestDetailScreen extends StatelessWidget {
             // Parameters Section
             Text(
               'Test Parameters',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
 
@@ -146,9 +133,9 @@ class MilkTestDetailScreen extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: Theme.of(context)
-                                .primaryColor
-                                .withValues(alpha: 0.1),
+                            color: Theme.of(
+                              context,
+                            ).primaryColor.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Icon(

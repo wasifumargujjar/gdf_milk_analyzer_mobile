@@ -14,8 +14,7 @@ class ConfirmEmailScreen extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ConfirmEmailScreen> createState() =>
-      _ConfirmEmailScreenState();
+  ConsumerState<ConfirmEmailScreen> createState() => _ConfirmEmailScreenState();
 }
 
 class _ConfirmEmailScreenState extends ConsumerState<ConfirmEmailScreen> {
@@ -31,10 +30,9 @@ class _ConfirmEmailScreenState extends ConsumerState<ConfirmEmailScreen> {
 
   Future<void> _confirmEmail() async {
     try {
-      final message = await ref.read(authStateProvider.notifier).confirmEmail(
-            userId: widget.userId,
-            token: widget.token,
-          );
+      final message = await ref
+          .read(authStateProvider.notifier)
+          .confirmEmail(userId: widget.userId, token: widget.token);
 
       if (mounted) {
         setState(() {
@@ -55,9 +53,7 @@ class _ConfirmEmailScreenState extends ConsumerState<ConfirmEmailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Email Confirmation'),
-      ),
+      appBar: AppBar(title: const Text('Email Confirmation')),
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -73,18 +69,14 @@ class _ConfirmEmailScreenState extends ConsumerState<ConfirmEmailScreen> {
                     style: TextStyle(fontSize: 16),
                   ),
                 ] else if (_successMessage != null) ...[
-                  const Icon(
-                    Icons.check_circle,
-                    color: Colors.green,
-                    size: 80,
-                  ),
+                  const Icon(Icons.check_circle, color: Colors.green, size: 80),
                   const SizedBox(height: 24),
                   Text(
                     'Success!',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green,
-                        ),
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green,
+                    ),
                   ),
                   const SizedBox(height: 16),
                   Text(
@@ -106,18 +98,14 @@ class _ConfirmEmailScreenState extends ConsumerState<ConfirmEmailScreen> {
                     child: const Text('Go to Login'),
                   ),
                 ] else if (_errorMessage != null) ...[
-                  const Icon(
-                    Icons.error,
-                    color: Colors.red,
-                    size: 80,
-                  ),
+                  const Icon(Icons.error, color: Colors.red, size: 80),
                   const SizedBox(height: 24),
                   Text(
                     'Confirmation Failed',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red,
-                        ),
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                    ),
                   ),
                   const SizedBox(height: 16),
                   Text(

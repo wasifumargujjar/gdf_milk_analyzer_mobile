@@ -7,7 +7,8 @@ class RegisterSimpleScreen extends ConsumerStatefulWidget {
   const RegisterSimpleScreen({super.key});
 
   @override
-  ConsumerState<RegisterSimpleScreen> createState() => _RegisterSimpleScreenState();
+  ConsumerState<RegisterSimpleScreen> createState() =>
+      _RegisterSimpleScreenState();
 }
 
 class _RegisterSimpleScreenState extends ConsumerState<RegisterSimpleScreen> {
@@ -39,7 +40,9 @@ class _RegisterSimpleScreenState extends ConsumerState<RegisterSimpleScreen> {
     setState(() => _isLoading = true);
 
     try {
-      final message = await ref.read(authStateProvider.notifier).registerSimple(
+      final message = await ref
+          .read(authStateProvider.notifier)
+          .registerSimple(
             username: _usernameController.text.trim(),
             email: _emailController.text.trim(),
             fullName: _fullNameController.text.trim(),
@@ -48,20 +51,14 @@ class _RegisterSimpleScreenState extends ConsumerState<RegisterSimpleScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(message),
-            backgroundColor: Colors.green,
-          ),
+          SnackBar(content: Text(message), backgroundColor: Colors.green),
         );
         context.go('/login');
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(e.toString()),
-            backgroundColor: Colors.red,
-          ),
+          SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
         );
       }
     } finally {
@@ -74,9 +71,7 @@ class _RegisterSimpleScreenState extends ConsumerState<RegisterSimpleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Register'),
-      ),
+      appBar: AppBar(title: const Text('Register')),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
@@ -88,8 +83,8 @@ class _RegisterSimpleScreenState extends ConsumerState<RegisterSimpleScreen> {
                 Text(
                   'Create Account',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Text(
@@ -248,10 +243,7 @@ class _RegisterSimpleScreenState extends ConsumerState<RegisterSimpleScreen> {
                             color: Colors.white,
                           ),
                         )
-                      : const Text(
-                          'Register',
-                          style: TextStyle(fontSize: 16),
-                        ),
+                      : const Text('Register', style: TextStyle(fontSize: 16)),
                 ),
                 const SizedBox(height: 16),
 

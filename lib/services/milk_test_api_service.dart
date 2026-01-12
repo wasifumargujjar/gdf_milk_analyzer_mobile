@@ -12,22 +12,17 @@ class MilkTestApiService {
     int page = 1,
     int pageSize = 10,
   }) async {
-    final url = '/MilkTest/my-results?userId=$userId&page=$page&pageSize=$pageSize';
+    final url =
+        '/MilkTest/my-results?userId=$userId&page=$page&pageSize=$pageSize';
     print('MilkTestApiService: Calling $url');
-    final response = await _apiService.get(
-      url,
-      requiresAuth: true,
-    );
+    final response = await _apiService.get(url, requiresAuth: true);
 
     return MilkTestResultsResponse.fromJson(response);
   }
 
   /// Get a specific test result by ID
   Future<MilkTestResult> getTestResult(int id) async {
-    final response = await _apiService.get(
-      '/MilkTest/$id',
-      requiresAuth: true,
-    );
+    final response = await _apiService.get('/MilkTest/$id', requiresAuth: true);
 
     return MilkTestResult.fromJson(response);
   }

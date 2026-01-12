@@ -9,11 +9,16 @@ final milkTestApiServiceProvider = Provider<MilkTestApiService>((ref) {
   return MilkTestApiService(apiService);
 });
 
-final milkTestResultsProvider = StateNotifierProvider<MilkTestResultsNotifier, AsyncValue<List<MilkTestResult>>>((ref) {
-  return MilkTestResultsNotifier(ref);
-});
+final milkTestResultsProvider =
+    StateNotifierProvider<
+      MilkTestResultsNotifier,
+      AsyncValue<List<MilkTestResult>>
+    >((ref) {
+      return MilkTestResultsNotifier(ref);
+    });
 
-class MilkTestResultsNotifier extends StateNotifier<AsyncValue<List<MilkTestResult>>> {
+class MilkTestResultsNotifier
+    extends StateNotifier<AsyncValue<List<MilkTestResult>>> {
   final Ref _ref;
   int _currentPage = 1;
   int _totalResults = 0;
@@ -31,11 +36,11 @@ class MilkTestResultsNotifier extends StateNotifier<AsyncValue<List<MilkTestResu
     try {
       final service = _ref.read(milkTestApiServiceProvider);
       final authUser = _ref.read(authStateProvider).value;
-      
+
       print('=== Loading Test Results ===');
       print('Auth user: ${authUser?.username}');
       print('User ID: ${authUser?.userId}');
-      
+
       if (authUser == null) {
         print('No authenticated user, returning empty results');
         state = const AsyncValue.data([]);
@@ -72,11 +77,11 @@ class MilkTestResultsNotifier extends StateNotifier<AsyncValue<List<MilkTestResu
     try {
       final service = _ref.read(milkTestApiServiceProvider);
       final authUser = _ref.read(authStateProvider).value;
-      
+
       if (authUser == null) return;
-      
+
       _currentPage++;
-      
+
       final response = await service.getMyTestResults(
         userId: authUser.userId,
         page: _currentPage,

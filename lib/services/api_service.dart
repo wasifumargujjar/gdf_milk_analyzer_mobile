@@ -18,11 +18,9 @@ class ApiService {
   final TokenStorageService _tokenStorage;
   final http.Client _client;
 
-  ApiService({
-    required TokenStorageService tokenStorage,
-    http.Client? client,
-  })  : _tokenStorage = tokenStorage,
-        _client = client ?? http.Client();
+  ApiService({required TokenStorageService tokenStorage, http.Client? client})
+    : _tokenStorage = tokenStorage,
+      _client = client ?? http.Client();
 
   Future<Map<String, String>> _getHeaders({bool includeAuth = false}) async {
     final headers = {
@@ -48,22 +46,21 @@ class ApiService {
       return json.decode(response.body);
     } else {
       String errorMessage = 'Request failed';
-      
+
       try {
         final errorBody = json.decode(response.body);
         if (errorBody is Map) {
-          errorMessage = errorBody['message'] ?? 
-                        errorBody['error'] ?? 
-                        errorMessage;
-          
+          errorMessage =
+              errorBody['message'] ?? errorBody['error'] ?? errorMessage;
+
           // Handle validation errors
           if (errorBody['errors'] != null) {
             errorMessage = errorBody['errors'].toString();
           }
         }
       } catch (e) {
-        errorMessage = response.body.isNotEmpty 
-            ? response.body 
+        errorMessage = response.body.isNotEmpty
+            ? response.body
             : 'Request failed with status ${response.statusCode}';
       }
 
@@ -103,11 +100,7 @@ class ApiService {
       final headers = await _getHeaders(includeAuth: requiresAuth);
 
       final response = await _client
-          .post(
-            url,
-            headers: headers,
-            body: json.encode(body),
-          )
+          .post(url, headers: headers, body: json.encode(body))
           .timeout(ApiConfig.connectionTimeout);
 
       return await _handleResponse(response);
@@ -133,11 +126,7 @@ class ApiService {
       final headers = await _getHeaders(includeAuth: requiresAuth);
 
       final response = await _client
-          .put(
-            url,
-            headers: headers,
-            body: json.encode(body),
-          )
+          .put(url, headers: headers, body: json.encode(body))
           .timeout(ApiConfig.connectionTimeout);
 
       return await _handleResponse(response);

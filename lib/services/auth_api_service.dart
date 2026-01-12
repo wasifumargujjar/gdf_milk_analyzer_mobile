@@ -23,11 +23,7 @@ class AuthApiService {
 
   /// Logout via AuthController
   Future<void> logout() async {
-    await _apiService.post(
-      ApiConfig.logoutEndpoint,
-      {},
-      requiresAuth: true,
-    );
+    await _apiService.post(ApiConfig.logoutEndpoint, {}, requiresAuth: true);
   }
 
   /// Simple registration via AuthController (auto-confirms email)
@@ -37,16 +33,13 @@ class AuthApiService {
     required String fullName,
     required String password,
   }) async {
-    final response = await _apiService.post(
-      ApiConfig.registerAuthEndpoint,
-      {
-        'username': username,
-        'email': email,
-        'fullName': fullName,
-        'passwordHash': password,
-        'role': 'User',
-      },
-    );
+    final response = await _apiService.post(ApiConfig.registerAuthEndpoint, {
+      'username': username,
+      'email': email,
+      'fullName': fullName,
+      'passwordHash': password,
+      'role': 'User',
+    });
 
     return response as Map<String, dynamic>;
   }
@@ -76,9 +69,7 @@ class AuthApiService {
   }
 
   /// Request password reset via AccountController
-  Future<Map<String, dynamic>> forgotPassword(
-    ForgotPasswordModel model,
-  ) async {
+  Future<Map<String, dynamic>> forgotPassword(ForgotPasswordModel model) async {
     final response = await _apiService.post(
       ApiConfig.forgotPasswordEndpoint,
       model.toJson(),
@@ -88,9 +79,7 @@ class AuthApiService {
   }
 
   /// Reset password via AccountController
-  Future<Map<String, dynamic>> resetPassword(
-    ResetPasswordModel model,
-  ) async {
+  Future<Map<String, dynamic>> resetPassword(ResetPasswordModel model) async {
     final response = await _apiService.post(
       ApiConfig.resetPasswordEndpoint,
       model.toJson(),

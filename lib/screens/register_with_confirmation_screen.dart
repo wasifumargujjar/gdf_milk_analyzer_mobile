@@ -70,10 +70,7 @@ class _RegisterWithConfirmationScreenState
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(e.toString()),
-            backgroundColor: Colors.red,
-          ),
+          SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
         );
       }
     } finally {
@@ -86,9 +83,7 @@ class _RegisterWithConfirmationScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Register with Email Confirmation'),
-      ),
+      appBar: AppBar(title: const Text('Register with Email Confirmation')),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
@@ -100,8 +95,8 @@ class _RegisterWithConfirmationScreenState
                 Text(
                   'Create Account',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Text(
@@ -238,10 +233,7 @@ class _RegisterWithConfirmationScreenState
                             color: Colors.white,
                           ),
                         )
-                      : const Text(
-                          'Register',
-                          style: TextStyle(fontSize: 16),
-                        ),
+                      : const Text('Register', style: TextStyle(fontSize: 16)),
                 ),
                 const SizedBox(height: 16),
 

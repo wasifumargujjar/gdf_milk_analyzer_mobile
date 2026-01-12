@@ -4,7 +4,7 @@ import 'package:app_links/app_links.dart';
 class DeepLinkService {
   final AppLinks _appLinks = AppLinks();
   StreamSubscription? _linkSubscription;
-  
+
   /// Initialize deep link handling
   Future<void> initialize(Function(Uri) onLink) async {
     // Handle initial link if app was opened via deep link
@@ -41,10 +41,7 @@ class DeepLinkService {
       final token = uri.queryParameters['token'];
 
       if (userId != null && token != null) {
-        return {
-          'userId': int.tryParse(userId),
-          'token': token,
-        };
+        return {'userId': int.tryParse(userId), 'token': token};
       }
     }
     return null;
@@ -58,10 +55,7 @@ class DeepLinkService {
       final token = uri.queryParameters['token'];
 
       if (userId != null && token != null) {
-        return {
-          'userId': int.tryParse(userId),
-          'token': token,
-        };
+        return {'userId': int.tryParse(userId), 'token': token};
       }
     }
     return null;
